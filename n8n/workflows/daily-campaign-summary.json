@@ -1,0 +1,68 @@
+{
+  "name": "NxtWave-Daily-Campaign-Summary",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 24
+            }
+          ]
+        }
+      },
+      "id": "node-schedule-daily",
+      "name": "Daily at Midnight Schedule",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [220, 300]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT COUNT(*) as total_registrations, COUNT(DISTINCT referred_by_code) as active_referrers, COUNT(CASE WHEN referred_by_code IS NOT NULL THEN 1 END) as referral_registrations FROM public.registrations WHERE status = 'confirmed';"
+      },
+      "id": "node-postgres-summary",
+      "name": "Query Supabase PostgreSQL",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [440, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "const stats = $input.first().json;\nconst target = 500;\nconst confirmed = parseInt(stats.total_registrations || 0, 10);\nconst remaining = Math.max(target - confirmed, 0);\nconst pacePercent = Math.round((confirmed / target) * 100);\n\nreturn [{\n  json: {\n    confirmed,\n    target,\n    remaining,\n    pacePercent,\n    referrals: parseInt(stats.referral_registrations || 0, 10),\n    referrers: parseInt(stats.active_referrers || 0, 10),\n    message: `📊 NxtWave GrowthOS Daily Briefing:\\n- Confirmed: ${confirmed}/${target} (${pacePercent}%)\\n- Remaining: ${remaining}\\n- Referral Signups: ${stats.referral_registrations || 0}`\n  }\n}];"
+      },
+      "id": "node-code-calc",
+      "name": "Calculate Growth Velocity",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [660, 300]
+    }
+  ],
+  "connections": {
+    "Daily at Midnight Schedule": {
+      "main": [
+        [
+          {
+            "node": "Query Supabase PostgreSQL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Query Supabase PostgreSQL": {
+      "main": [
+        [
+          {
+            "node": "Calculate Growth Velocity",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}
+

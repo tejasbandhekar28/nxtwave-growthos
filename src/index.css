@@ -1,0 +1,310 @@
+/* ==========================================================================
+   NxtWave GrowthOS — Neumorphic / Soft UI System Design System
+   Exact Reference Image Reproduction & Specifications
+   ========================================================================== */
+
+:root {
+  /* Exact Color Palette */
+  --bg-primary: #DDF5FF;
+  --bg-secondary: #D5F0FC;
+  --surface: #D9F0FA;
+  --surface-light: #EAF9FF;
+  --surface-white: #F3FBFF;
+
+  --primary: #78BFE0;
+  --primary-hover: #5EACD2;
+  --primary-dark: #367FA8;
+
+  --accent: #0E2C68;
+  --text-primary: #12356B;
+  --text-secondary: #5688AB;
+  --text-muted: #83AEC9;
+
+  --success: #269B73;
+  --warning: #E7A744;
+  --danger: #D95C70;
+
+  --shadow-dark: #A9D1E3;
+  --shadow-light: #FFFFFF;
+
+  --border-soft: rgba(255, 255, 255, 0.65);
+  --border-subtle: rgba(255, 255, 255, 0.45);
+
+  /* Shadows - Neumorphic Depth */
+  --shadow-card: 9px 9px 20px #A9D1E3, -9px -9px 20px #FFFFFF;
+  --shadow-card-sm: 5px 5px 12px #A9D1E3, -5px -5px 12px #FFFFFF;
+  --shadow-button: 5px 5px 10px #A9D1E3, -5px -5px 10px #FFFFFF;
+  --shadow-button-hover: 7px 7px 14px #A9D1E3, -7px -7px 14px #FFFFFF;
+  --shadow-inset: inset 4px 4px 8px #B6D9E9, inset -4px -4px 8px #FFFFFF;
+  --shadow-inset-sm: inset 2px 2px 5px #B6D9E9, inset -2px -2px 5px #FFFFFF;
+  --shadow-icon-plate: 4px 4px 8px #B1D7E9, -4px -4px 8px #FFFFFF;
+
+  /* Font Families */
+  --font-main: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+/* Global Reset & Base */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-main);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  min-height: 100vh;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* Typography Helpers */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text-primary);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+p {
+  color: var(--text-secondary);
+}
+
+/* Nav Link Button Reset */
+.nav-link {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-family: var(--font-main);
+  font-size: 0.92rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.nav-link:hover {
+  color: var(--text-primary);
+}
+
+/* Neumorphic Reusable Classes */
+.neumorphic-card {
+  background: var(--surface);
+  border-radius: 24px;
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--border-subtle);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.neumorphic-card-sm {
+  background: var(--surface);
+  border-radius: 18px;
+  box-shadow: var(--shadow-card-sm);
+  border: 1px solid var(--border-subtle);
+}
+
+.neumorphic-card-interactive:hover {
+  transform: translateY(-2px);
+  box-shadow: 12px 12px 24px #A9D1E3, -12px -12px 24px #FFFFFF;
+}
+
+.neumorphic-input {
+  background: var(--surface);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 14px;
+  box-shadow: var(--shadow-inset);
+  color: var(--text-primary);
+  font-family: var(--font-main);
+  font-size: 0.95rem;
+  padding: 12px 16px;
+  outline: none;
+  width: 100%;
+  transition: all 0.2s ease;
+}
+
+.neumorphic-input:focus {
+  border-color: var(--primary);
+  box-shadow: inset 4px 4px 9px #A4CFE2, inset -4px -4px 9px #FFFFFF, 0 0 0 3px rgba(120, 191, 224, 0.25);
+}
+
+.neumorphic-input::placeholder {
+  color: var(--text-muted);
+}
+
+/* Inset Container / Panel */
+.neumorphic-inset {
+  background: var(--surface);
+  border-radius: 16px;
+  box-shadow: var(--shadow-inset);
+}
+
+/* Soft Buttons */
+.neumorphic-button {
+  background: linear-gradient(145deg, #E5F7FF, #CBE9F7);
+  color: var(--text-primary);
+  border: 1px solid var(--border-soft);
+  border-radius: 16px;
+  box-shadow: var(--shadow-button);
+  font-family: var(--font-main);
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 12px 24px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 180ms ease;
+  user-select: none;
+}
+
+.neumorphic-button:hover:not(:disabled) {
+  box-shadow: var(--shadow-button-hover);
+  color: var(--accent);
+}
+
+.neumorphic-button:active:not(:disabled) {
+  box-shadow: var(--shadow-inset);
+  transform: translateY(1px);
+}
+
+.neumorphic-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  box-shadow: none;
+  background: #D9EBF5;
+}
+
+/* Primary Accent Button */
+.neumorphic-button-primary {
+  background: linear-gradient(145deg, #87C9E7, #66B2D8);
+  color: #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 5px 5px 12px #9EC6D9, -5px -5px 12px #FFFFFF;
+  text-shadow: 0 1px 2px rgba(18, 53, 107, 0.2);
+}
+
+.neumorphic-button-primary:hover:not(:disabled) {
+  background: linear-gradient(145deg, #78BFE0, #5EACD2);
+  color: #FFFFFF;
+  box-shadow: 7px 7px 16px #95BDD0, -7px -7px 16px #FFFFFF;
+}
+
+.neumorphic-button-primary:active:not(:disabled) {
+  box-shadow: inset 3px 3px 6px #4C99BF, inset -3px -3px 6px #7FC6E9;
+  transform: translateY(1px);
+}
+
+/* Soft Icon Plate */
+.neumorphic-icon-plate {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  background: var(--surface);
+  box-shadow: var(--shadow-icon-plate);
+  border: 1px solid var(--border-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-primary);
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+.neumorphic-icon-plate-inset {
+  box-shadow: var(--shadow-inset-sm);
+  background: #D6EDF8;
+}
+
+/* Soft Badges */
+.neumorphic-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 30px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  background: var(--surface);
+  box-shadow: 3px 3px 7px #A9D1E3, -3px -3px 7px #FFFFFF;
+  border: 1px solid var(--border-soft);
+}
+
+.badge-demo {
+  color: #0E2C68;
+  background: linear-gradient(135deg, #EAF9FF, #D9F0FA);
+  border-color: rgba(120, 191, 224, 0.4);
+}
+
+.badge-success {
+  color: #126348;
+  background: #D8F5E9;
+  border-color: rgba(38, 155, 115, 0.3);
+}
+
+.badge-info {
+  color: #12356B;
+  background: #E5F3FA;
+}
+
+/* Progress Bar (Neumorphic Inset Track with Soft Gradient Fill) */
+.neumorphic-progress-track {
+  width: 100%;
+  height: 12px;
+  border-radius: 10px;
+  background: var(--surface);
+  box-shadow: inset 2px 2px 5px #B6D9E9, inset -2px -2px 5px #FFFFFF;
+  overflow: hidden;
+  padding: 2px;
+}
+
+.neumorphic-progress-fill {
+  height: 100%;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #78BFE0 0%, #367FA8 100%);
+  box-shadow: 0 1px 3px rgba(18, 53, 107, 0.2);
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Media Queries for Responsive Navigation & Cards */
+@media (min-width: 768px) {
+  .desktop-nav {
+    display: flex !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .mobile-toggle {
+    display: inline-flex !important;
+  }
+  .divider-line {
+    display: none;
+  }
+}
+
+/* Animations */
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.92); }
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}

@@ -1,0 +1,68 @@
+{
+  "name": "NxtWave-Referral-Leaderboard-Sync",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 4
+            }
+          ]
+        }
+      },
+      "id": "node-schedule-sync",
+      "name": "4-Hour Interval",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [220, 300]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT r.full_name as referrer_name, r.college, r.referral_code, COUNT(s.id) as confirmed_referrals FROM public.registrations r JOIN public.registrations s ON s.referred_by_code = r.referral_code WHERE s.status = 'confirmed' AND r.status = 'confirmed' GROUP BY r.id, r.full_name, r.college, r.referral_code ORDER BY confirmed_referrals DESC LIMIT 15;"
+      },
+      "id": "node-query-leaderboard",
+      "name": "Fetch Verified Champions",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.5,
+      "position": [440, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\nconst top = items.map((item, index) => ({\n  rank: index + 1,\n  ...item.json\n}));\n\nreturn [{\n  json: {\n    updated_at: new Date().toISOString(),\n    total_champions: top.length,\n    leaderboard: top\n  }\n}];"
+      },
+      "id": "node-format-leaderboard",
+      "name": "Format Leaderboard JSON",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [660, 300]
+    }
+  ],
+  "connections": {
+    "4-Hour Interval": {
+      "main": [
+        [
+          {
+            "node": "Fetch Verified Champions",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Verified Champions": {
+      "main": [
+        [
+          {
+            "node": "Format Leaderboard JSON",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}
+
